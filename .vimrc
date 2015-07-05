@@ -9,7 +9,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-"Plugin 'scrooloose/nerdtree'
+
 Plugin 'Solarized'
 
 Plugin 'ervandew/supertab'
@@ -21,14 +21,17 @@ Plugin 'SirVer/ultisnips'
 "Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
 
-
 Plugin 'kien/ctrlp.vim'
+
+Plugin 'majutsushi/tagbar'
+
+Plugin 'scrooloose/nerdtree'
+
 "Plugin 'Lokaltog/vim-easymotion'
 "Plugin 'tpope/vim-surround'
 "Plugin 'taglist.vim'
 "Plugin 'zhaocai/GoldenView.Vim'
 "Plugin 'mileszs/ack.vim'
-"Plugin 'majutsushi/tagbar'
 "Plugin 'rdnetto/YCM-Generator'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
