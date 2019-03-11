@@ -29,6 +29,10 @@ Plug 'python-mode/python-mode', { 'branch': 'develop' }
 "Latex
 Plug 'lervag/vimtex'
 
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+
 call plug#end()
 
 "Plugin 'rdnetto/YCM-Generator'
