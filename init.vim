@@ -1,12 +1,15 @@
 call plug#begin('~/.nvim/plugged')
 
+"Plug 'godlygeek/tabular'
+"Plug 'plasticboy/vim-markdown'
+
 "Plug 'Solarized'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 Plug 'altercation/vim-colors-solarized'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'mileszs/ack.vim'
@@ -22,23 +25,50 @@ Plug 'raimondi/delimitmate'
 
 Plug 'funorpain/vim-cpplint'
 
-Plug 'python-mode/python-mode', { 'branch': 'develop' }
+"Plug 'python-mode/python-mode', { 'branch': 'develop' }
 
 "Plug 'miyakogi/seiya.vim'
 
 "Latex
-Plug 'lervag/vimtex'
+"Plug 'lervag/vimtex'
 
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
+Plug 'christoomey/vim-tmux-navigator'
+
+Plug 'vim-scripts/a.vim'
+
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'edkolev/tmuxline.vim'
+Plug 'vim-airline/vim-airline-themes'
+
+
+" Sessions
+"Plug 'tpope/vim-obsession'
+"Plug 'dhruvasagar/vim-prosession' " requires tpope/vim-obsession
+
+" Other solution for sessions
+
+Plug 'thaerkh/vim-workspace'
+
+"
+
+"Plug 'thaerkh/vim-indentguides'
+"Plug 'nathanaelkane/vim-indent-guides'
+
+
+Plug 'chrisbra/colorizer'
+
+Plug 'airblade/vim-gitgutter'
+
+Plug 'andrewradev/linediff.vim'
 
 call plug#end()
 
 "Plugin 'rdnetto/YCM-Generator'
 
-"Plugin 'tpope/vim-fugitive'
-"Plugin 'bling/vim-airline'
 "Plugin 'scrooloose/syntastic'
 "Plugin 'kana/vim-operator-user'
 "Plugin 'rhysd/vim-clang-format'
@@ -53,7 +83,7 @@ call plug#end()
 
 autocmd ColorScheme * highlight RedundantWhitespace ctermbg=red guibg=red
 autocmd ColorScheme * highlight Todo1 ctermbg=DarkGrey guibg=DarkGrey
-au InsertLeave * match pandocDefinitionTerm /\t\+/
+"au InsertLeave * match pandocDefinitionTerm /\t\+/
 au InsertLeave * 2match RedundantWhitespace /\s\+$/
 
 " Display scons files with python syntax
@@ -62,9 +92,9 @@ autocmd BufNew,BufRead SConscript set filetype=python
 
 set number
 set smartindent
-set ts=2
-set sw=2
-set expandtab
+set ts=4
+set sw=4
+" set expandtab
 syntax on
 "set t_Co=16
 set background=dark
@@ -79,21 +109,27 @@ set laststatus=2 "always display status line
 set spelllang=pl,en
 set spell
 
+"" vim-markdown
+"let g:vim_markdown_folding_disabled = 1
+"
 
 "" make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
+
 "" better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger       = "<c-j>"
 let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-h>"
 let g:UltiSnipsListSnippets = "<c-l>" "List possible snippets based on current file
-"
 
 
-""" vimtex + YCM
+"" YCM key bindings
+nnoremap <leader>jd :YcmCompleter GoTo<CR>
+
+"" vimtex + YCM
   if !exists('g:ycm_semantic_triggers')
     let g:ycm_semantic_triggers = {}
   endif
@@ -124,7 +160,12 @@ tnoremap <c-j> <c-\><c-n><c-w>j
 tnoremap <c-k> <c-\><c-n><c-w>k
 tnoremap <c-l> <c-\><c-n><c-w>l
 nnoremap <silent><Space> :nohlsearch<Bar>:echo<CR>
-"let g:ack_default_options = " -H --nocolor --nogroup --column" "ack version to old for -s
+
+"let g:ack_default_options = " -H --nocolor --nogroup --column -s --ignore-file=is:tags" "ack version to old for -s
+let g:ack_default_options = " -H --ignore-file=is:tags" "ack version to old for -s
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+
 
 "ctags
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
@@ -135,8 +176,10 @@ map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 "nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
 "clang_format
-let g:clang_format#command="clang-format"
-let g:clang_format#code_style="google"
+let g:clang_format#command= "clang-format"
+let g:clang_format#code_style= "Mozilla"
+let g:clang_format#syle_options= {
+			\ "ColumnLimit" : 120 }
 
 "" map to <Leader>cf in C++ code
 autocmd FileType c,cpp,objc,cc,h nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
@@ -188,3 +231,16 @@ let pyindent_nested_paren="&sw*2"
 let pyindent_open_paren="&sw*2"
 " } Indent Python in the Google way.
 
+let g:tmuxline_preset = 'tmux'
+
+let g:workspace_autocreate = 1
+let g:workspace_autosave = 0
+let g:workspace_session_disable_on_args = 1 " don't load session if filename is specified
+
+"let g:indentguides_spacechar = '»'
+"let g:indentguides_tabchar = '›'
+
+set sessionoptions-=blank " don't save blank windows-> NERDtree should'nt cause issues when restoring session
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+highlight! link SignColumn LineNr
